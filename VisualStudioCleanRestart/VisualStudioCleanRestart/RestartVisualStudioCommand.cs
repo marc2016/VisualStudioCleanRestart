@@ -111,6 +111,7 @@ namespace VisualStudioCleanRestart
                 sw.WriteLine("Get-ChildItem -inc bin,obj -rec | Remove-Item -rec -force");
                 sw.WriteLine("Write-Host \"Restart Visual Studio...\"");
                 sw.WriteLine($"& \"{vsPath}\" \"{solutionPath}\"");
+                sw.WriteLine("exit");
             }
 
             return new ProcessStartInfo
