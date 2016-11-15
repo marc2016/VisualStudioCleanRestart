@@ -10,17 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CleanStart
+using MahApps.Metro.Controls;
+
+namespace CleanStart.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ProgressWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ProgressWindow : MetroWindow
     {
-        public MainWindow()
+        public ProgressWindow()
         {
             InitializeComponent();
         }
