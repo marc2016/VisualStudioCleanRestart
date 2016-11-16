@@ -12,7 +12,6 @@
                       Height="100"
                       d:DataContext="{d:DesignInstance viewModels:ProgressWindowViewModel,
                                                        IsDesignTimeCreatable=True}"
-                      mvvm:ViewModelLocator.AutoWireViewModel="True"
                       Icon="{x:Null}"
                       ResizeMode="NoResize"
                       ShowIconOnTitleBar="False"
