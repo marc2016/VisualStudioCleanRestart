@@ -62,8 +62,11 @@ namespace CleanStart.ViewModels
         {
             await Task.Delay(3000);
             var dirsToClean = GetDiretories(Path.GetDirectoryName(pathToSolution), "bin", "obj").ToList();
+            var dirCount = dirsToClean.Count;
+            var dirCounter = 0d;
             foreach (var dir in dirsToClean)
             {
+                this.Progress = ++dirCounter/dirCount;
                 if (!Directory.Exists(dir))
                     continue;
                 var directoryName = Path.GetDirectoryName(pathToSolution);

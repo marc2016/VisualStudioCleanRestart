@@ -28,7 +28,11 @@
                    Foreground="White"
                    Text="{Binding Path=StatusMessage,
                                   Mode=OneWay}" />
-        <controls:MetroProgressBar Grid.Row="1" Value="{Binding Path=Progress, Mode=OneWay}" />
+        <controls:MetroProgressBar Grid.Row="1"
+                                   Maximum="1"
+                                   Minimum="0"
+                                   Value="{Binding Path=Progress,
+                                                   Mode=OneWay}" />
     </Grid>
 </controls:MetroWindow>
 
