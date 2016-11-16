@@ -5,6 +5,8 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
 
+using CleanStart.ViewModels;
+
 using EnvDTE80;
 
 using Microsoft.VisualStudio.Shell;
@@ -98,28 +100,13 @@ namespace VisualStudioCleanRestart
 
         private ProcessStartInfo GetScriptProcess(string solutionPath, string vsPath)
         {
-            var file = Path.GetTempFileName() + ".ps1";
-            using (var sw = new StreamWriter(file))
-            {
-                //sw.WriteLine("Write - Host \"Finished. Press any key to continue ...\"$x = $host.UI.RawUI.ReadKey(\"NoEcho,IncludeKeyDown\")");
-                sw.WriteLine("Start-Sleep -Seconds 5");
-                sw.WriteLine($"cd \"{Path.GetDirectoryName(solutionPath)}\"");
-                sw.WriteLine("Write-Host \"Current path:\"");
-                sw.WriteLine("Convert-Path .");
-                sw.WriteLine("Start-Sleep -Seconds 5");
-                sw.WriteLine("Write-Host \"Cleaning all bin and obj folders recursive...\"");
-                sw.WriteLine("Get-ChildItem -inc bin,obj -rec | Remove-Item -rec -force");
-                sw.WriteLine("Write-Host \"Restart Visual Studio...\"");
-                sw.WriteLine($"& \"{vsPath}\" \"{solutionPath}\"");
-                sw.WriteLine("exit");
-            }
-
+            var assemblyLocation = typeof(ProgressWindowViewModel).Assembly.Location;
             return new ProcessStartInfo
             {
-                FileName = @"powershell.exe",
+                FileName = assemblyLocation,
                 ErrorDialog = true,
                 UseShellExecute = true,
-                Arguments = $" –ExecutionPolicy Unrestricted -noexit {Path.GetFullPath(file)}"
+                Arguments = $"\"{vsPath}\" \"{solutionPath}\""
             };
         }
 
