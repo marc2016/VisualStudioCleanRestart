@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 using Prism.Mvvm;
 
@@ -59,17 +60,26 @@ namespace CleanStart.ViewModels
 
         private async void Action(string pathToVisualStudio, string pathToSolution)
         {
-            var dirsToClean = GetDiretories(pathToSolution, "bin", "obj");
+            await Task.Delay(3000);
+            var dirsToClean = GetDiretories(Path.GetDirectoryName(pathToSolution), "bin", "obj").ToList();
             foreach (var dir in dirsToClean)
             {
-                this.StatusMessage = $"Delete {dir}";
+                if (!Directory.Exists(dir))
+                    continue;
+                var directoryName = Path.GetDirectoryName(pathToSolution);
+                if (directoryName != null)
+                    this.StatusMessage = $"Delete {dir.Substring(directoryName.Length)}";
                 Directory.Delete(dir, true);
-                await Task.Delay(5000);
+                await Task.Delay(500);
             }
             this.StatusMessage = "Solution cleaned. Starting Visual Studio...";
             await Task.Delay(3000);
 
-            Process.Start(pathToVisualStudio, pathToSolution);
+            var startInfo = new ProcessStartInfo(pathToVisualStudio, $"\"{pathToSolution}\"") {UseShellExecute = true};
+
+            Process.Start(startInfo);
+
+            Application.Current.Shutdown();
         }
 
         private static IEnumerable<string> GetDiretories(string sDir, params string[] patterns)
