@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+using CleanStart.ViewModels;
+using CleanStart.Views;
+
 namespace CleanStart
 {
     /// <summary>
@@ -17,7 +20,13 @@ namespace CleanStart
         {
             base.OnStartup(e);
 
+            var pathToVisualStudio = e.Args[0];
+            var pathToSolution = e.Args[1];
 
+            var viewModel = new ProgressWindowViewModel(pathToVisualStudio, pathToSolution);
+            var window = new ProgressWindow {DataContext = viewModel};
+
+            window.Show();
         }
     }
 }
